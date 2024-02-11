@@ -37,7 +37,7 @@ jobs:
         run: flutter pub get
 
       - name: build ipa
-        run: flutter build ipa --dart-define-from-file=dart_defines/dev.env
+        run: flutter build ios --dart-define-from-file=dart_defines/dev.env
 
       - name: iOS Build Action
         uses: yukiarrr/ios-build-action@v0.5.0
