@@ -22,6 +22,18 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+// dart-define を入れる変数を宣言しています。
+def dartDefines = [:];
+if (project.hasProperty('dart-defines')) {
+    // カンマ区切りかつBase64でエンコードされている dart-defines をデコードして変数に格納します。
+    dartDefines = dartDefines + project.property('dart-defines')
+        .split(',')
+        .collectEntries { entry ->
+            def pair = new String(entry.decodeBase64(), 'UTF-8').split('=')
+            [(pair.first()): pair.last()]
+        }
+}
+
 android {
     namespace "com.github_action.app.github_action_app"
     compileSdkVersion flutter.compileSdkVersion
@@ -38,6 +50,7 @@ android {
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
+        res.srcDirs = ['src/main/res', "src/${dartDefines.flavor}/res"]
     }
 
     defaultConfig {
@@ -49,6 +62,8 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        applicationId "${dartDefines.appId}"
+        resValue "string", "app_name", "${dartDefines.appName}"
     }
 
     buildTypes {
@@ -59,7 +74,16 @@ android {
         }
     }
 }
+task selectGoogleServicesJson(type: Copy) {
+    from "src/${dartDefines.flavor}/google-services.json"
+    into './'
+}
 
+tasks.whenTaskAdded { task ->
+    if (task.name == 'processDebugGoogleServices' || task.name == 'processReleaseGoogleServices') {
+        task.dependsOn selectGoogleServicesJson
+    }
+}
 flutter {
     source '../..'
 }

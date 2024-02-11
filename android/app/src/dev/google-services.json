@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "513258309494",
+    "project_id": "github-action-dev",
+    "storage_bucket": "github-action-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:513258309494:android:6ca4f96bb5fae240ccdc57",
+        "android_client_info": {
+          "package_name": "com.githubaction.app.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxu_FvL_DYJtSZWQzMjxtC2ixTQGzVHmI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
